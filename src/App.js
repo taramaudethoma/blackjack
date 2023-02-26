@@ -1,25 +1,41 @@
-import logo from './logo.svg';
+import Scoreboard from "./components/Scoreboard";
+import background from "./blackjacktable.png"
 import './App.css';
+import NewGame from "./components/NewGame";
+
+
 
 function App() {
+
+
   return (
+
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <div className="background" style={{ backgroundImage: `url(${background})` }}>
+
+        <header className="App-header">
+
+        </header>
+
+        < NewGame />
+
+        <br />
+
+        <br />
+
+        <div className="container">
+
+          <Scoreboard />
+
+        </div>
+
+      </div>
+
     </div>
+
   );
 }
+
 
 export default App;
