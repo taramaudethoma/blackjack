@@ -1,4 +1,3 @@
-import Scoreboard from "./components/Scoreboard";
 import background from "./blackjacktable.png"
 import './App.css';
 import NewGame from "./components/NewGame";
@@ -15,21 +14,13 @@ function App() {
       <div className="background" style={{ backgroundImage: `url(${background})` }}>
 
         <header className="App-header">
+          <h1>Feeling Lucky?</h1>
 
         </header>
 
         < NewGame />
 
-        <br />
-
-        <br />
-
-        <div className="container">
-
-          <Scoreboard />
-
-        </div>
-
+       
       </div>
 
     </div>

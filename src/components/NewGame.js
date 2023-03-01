@@ -3,6 +3,10 @@ import { Button } from '@mui/material'
 import './Card.css'
 import ComputerHand from './ComputerHand';
 import Scoreboard from './Scoreboard';
+import { Avatar } from '@mui/material';
+import { Grid } from '@mui/material';
+import { Box } from '@mui/material';
+
 
 function NewGame() {
 
@@ -41,12 +45,12 @@ function NewGame() {
   }
 
   const _hitPlayer = () => {
-    if(gameEnded) {
+    if (gameEnded) {
       alert("Game Over")
       return
     }
     let computerHand = _calculateCardsValue(computerCards)
-    
+
 
     fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
       .then(res => res.json())
@@ -55,43 +59,43 @@ function NewGame() {
         let newPlayerCards = playerCards.concat(data.cards)
         setPlayerCards(newPlayerCards)
 
-          let updatedPlayerHand = _calculateCardsValue(newPlayerCards);
+        let updatedPlayerHand = _calculateCardsValue(newPlayerCards);
 
-        if(updatedPlayerHand > 21) {
+        if (updatedPlayerHand > 21) {
           setTimeout(() => {
             _endGame(updatedPlayerHand, computerHand);
-          },1200)
+          }, 1200)
         }
       });
 
   }
 
   const _computerTurn = () => {
-    if(gameEnded) {
+    if (gameEnded) {
       setTimeout(() => {
         _endGame(playerHand, computerHand);
       }, 1200);
       return
     }
-  
+
     let computerHand = _calculateCardsValue(computerCards)
     let playerHand = _calculateCardsValue(playerCards)
-  
+
     setShowComputerCards(true)
-  
+
     console.log(playerHand, computerHand)
-  
+
     if (computerHand <= playerHand && computerHand <= 16) {
-  
+
       fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
         .then(res => res.json())
         .then(data => {
-  
+
           let newComputerCards = computerCards.concat(data.cards)
           setComputerCards(newComputerCards);
-  
+
           let updatedComputerHand = _calculateCardsValue(newComputerCards);
-  
+
           if (updatedComputerHand <= playerHand && playerHand <= 21) {
             setTimeout(_computerTurn, 1200); // Call the function again after 1 second
           } else {
@@ -100,7 +104,7 @@ function NewGame() {
             }, 1200);
           }
         });
-  
+
     } else {
       setTimeout(() => {
         _endGame(playerHand, computerHand);
@@ -109,9 +113,9 @@ function NewGame() {
   };
 
   const _endGame = (playerHand, computerHand) => {
-    
+
     setGameEnded(true)
-    
+
     if (playerHand > 21 || (computerHand > playerHand && computerHand <= 21)) {
       setDisplayWinner("Computer Wins the Game!");
     } else if (computerHand > 21 || (playerHand > computerHand && playerHand <= 21)) {
@@ -124,7 +128,7 @@ function NewGame() {
   const _calculateCardsValue = (cards) => {
     let total = 0;
     let aces = 0;
-  
+
     cards.forEach(card => {
       if (card.value === "JACK" || card.value === "QUEEN" || card.value === "KING") {
         total += 10;
@@ -137,42 +141,71 @@ function NewGame() {
         total += Number(card.value);
       }
     });
-  
+
     while (aces > 0 && total > 21) {
       total -= 10;
       aces -= 1;
     }
-  
+
     return total;
   }
 
   return (
-    <div>
-      <Button variant="contained" color="primary" size="large" onClick={_newDeck}> Deal Cards</Button>
 
-      <h2>Computer Cards</h2>
-      <ComputerHand cards={computerCards} showComputerCards={showComputerCards} />
+    <Grid container spacing={2} minHeight={160}>
 
-      <h2>Player Cards</h2>
+      <Grid xs display="flex" justifyContent="center" alignItems="center">
 
-      <div>
+        <h2>Dealer's Hand</h2>
+        <ComputerHand cards={computerCards} showComputerCards={showComputerCards} />
 
-        {playerCards.map((card, index) => {
-          return <img key={index} className="player-card" src={card.image} alt="" />
-        })}
-      </div>
-      <Button onClick={_hitPlayer} variant="contained" color="success">Hit</Button>
-      <Button onClick={_computerTurn} variant="contained" color="error">Stay</Button>
-      <div>
-        <Scoreboard winnerText={displayWinner}/>
-        
-      </div>
-    </div>
+      </Grid>
+
+      <Grid xs display="flex" justifyContent="center" alignItems="center">
+      <Box className="box">
+
+        <div>
+          <Button variant="outlined" color="secondary" startIcon={<Avatar src={"./four-chips.jpeg"} />} onClick={_newDeck}> Deal Cards</Button>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          
+          <Button onClick={_hitPlayer} variant="outlined" color="success" startIcon={<Avatar alt="" src="./black-chip.jpeg" />}>Hit</Button>
+          <Button onClick={_computerTurn} variant="outlined" color="error" startIcon={<Avatar src={"./red-chip.jpeg"} />}>Stay</Button>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <div>
+            <Scoreboard winnerText={displayWinner} />
+          </div>
+        </div>
+        </Box>
+
+      </Grid>
+
+      <Grid xs display="flex" justifyContent="center" alignItems="center">
+
+        <h2>Player's Hand</h2>
+
+        <div>
+          {playerCards.map((card, index) => {
+            return <img key={index} className="player-card" src={card.image} alt="" />
+          })}
+        </div>
+
+      </Grid>
+
+    </Grid>
+
+
+
+
   )
 
 }
 
 
 export default NewGame
-
 
