@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
-import { Button } from '@mui/material'
-import './Card.css'
+import React, { useState } from 'react';
+import { Button } from '@mui/material';
+import './Card.css';
 import ComputerHand from './ComputerHand';
 import Scoreboard from './Scoreboard';
 import { Avatar } from '@mui/material';
 import { Grid } from '@mui/material';
 import { Box } from '@mui/material';
+import redchip from '../red-chip.jpeg';
+import fourchips from '../four-chips.jpeg';
+import chipstack from '../chip-stack.jpeg'
 
 
 function NewGame() {
@@ -70,7 +73,7 @@ function NewGame() {
 
   }
 
-  const _computerTurn = () => {
+  const _computerTurn = (cc = computerCards) => {
     if (gameEnded) {
       setTimeout(() => {
         _endGame(playerHand, computerHand);
@@ -78,7 +81,7 @@ function NewGame() {
       return
     }
 
-    let computerHand = _calculateCardsValue(computerCards)
+    let computerHand = _calculateCardsValue(cc)
     let playerHand = _calculateCardsValue(playerCards)
 
     setShowComputerCards(true)
@@ -91,13 +94,15 @@ function NewGame() {
         .then(res => res.json())
         .then(data => {
 
-          let newComputerCards = computerCards.concat(data.cards)
+          let newComputerCards = cc.concat(data.cards)
           setComputerCards(newComputerCards);
 
           let updatedComputerHand = _calculateCardsValue(newComputerCards);
 
           if (updatedComputerHand <= playerHand && playerHand <= 21) {
-            setTimeout(_computerTurn, 1200); // Call the function again after 1 second
+            setTimeout(() => {
+              _computerTurn(newComputerCards)
+             }, 2000); // Call the function again after 1 second
           } else {
             setTimeout(() => {
               _endGame(playerHand, updatedComputerHand);
@@ -157,6 +162,9 @@ function NewGame() {
       <Grid xs display="flex" justifyContent="center" alignItems="center">
 
         <h2>Dealer's Hand</h2>
+        <br/>
+        <br/>
+        <br/>
         <ComputerHand cards={computerCards} showComputerCards={showComputerCards} />
 
       </Grid>
@@ -165,14 +173,14 @@ function NewGame() {
       <Box className="box">
 
         <div>
-          <Button variant="outlined" color="secondary" startIcon={<Avatar src={"./four-chips.jpeg"} />} onClick={_newDeck}> Deal Cards</Button>
+          <Button variant="outlined" color="secondary" startIcon={<Avatar src={fourchips} />} onClick={_newDeck}> Deal Cards</Button>
           <br/>
           <br/>
           <br/>
           <br/>
           
-          <Button onClick={_hitPlayer} variant="outlined" color="success" startIcon={<Avatar alt="" src="./black-chip.jpeg" />}>Hit</Button>
-          <Button onClick={_computerTurn} variant="outlined" color="error" startIcon={<Avatar src={"./red-chip.jpeg"} />}>Stay</Button>
+          <Button onClick={_hitPlayer} variant="outlined" color="success" startIcon={<Avatar alt="" src={chipstack} />}>Hit</Button>
+          <Button onClick={() => {_computerTurn()}} variant="outlined" color="error" startIcon={<Avatar src={redchip} />}>Stay</Button>
           <br/>
           <br/>
           <br/>
@@ -188,6 +196,9 @@ function NewGame() {
       <Grid xs display="flex" justifyContent="center" alignItems="center">
 
         <h2>Player's Hand</h2>
+        <br/>
+        <br/>
+        <br/>
 
         <div>
           {playerCards.map((card, index) => {
