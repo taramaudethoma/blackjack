@@ -102,7 +102,7 @@ function NewGame() {
           if (updatedComputerHand <= playerHand && playerHand <= 21) {
             setTimeout(() => {
               _computerTurn(newComputerCards)
-             }, 2000); // Call the function again after 1 second
+             }, 1500); // Call the function again after 1 second
           } else {
             setTimeout(() => {
               _endGame(playerHand, updatedComputerHand);
@@ -113,7 +113,7 @@ function NewGame() {
     } else {
       setTimeout(() => {
         _endGame(playerHand, computerHand);
-      }, 1000);
+      }, 1200);
     }
   };
 
@@ -122,9 +122,9 @@ function NewGame() {
     setGameEnded(true)
 
     if (playerHand > 21 || (computerHand > playerHand && computerHand <= 21)) {
-      setDisplayWinner("Computer Wins the Game!");
+      setDisplayWinner("Computer Wins!");
     } else if (computerHand > 21 || (playerHand > computerHand && playerHand <= 21)) {
-      setDisplayWinner("You win the Game!");
+      setDisplayWinner("You Win!");
     } else {
       setDisplayWinner("It's a Tie");
     }
@@ -173,14 +173,14 @@ function NewGame() {
       <Box className="box">
 
         <div>
-          <Button variant="outlined" color="secondary" startIcon={<Avatar src={fourchips} />} onClick={_newDeck}> Deal Cards</Button>
+          <Button variant="contained" color="secondary" startIcon={<Avatar src={fourchips} />} onClick={_newDeck}> Deal Cards</Button>
           <br/>
           <br/>
           <br/>
           <br/>
           
-          <Button onClick={_hitPlayer} variant="outlined" color="success" startIcon={<Avatar alt="" src={chipstack} />}>Hit</Button>
-          <Button onClick={() => {_computerTurn()}} variant="outlined" color="error" startIcon={<Avatar src={redchip} />}>Stay</Button>
+          <Button onClick={_hitPlayer} variant="contained" color="success" startIcon={<Avatar alt="" src={chipstack} />}>Hit</Button>
+          <Button onClick={() => {_computerTurn()}} variant="contained" color="error" startIcon={<Avatar src={redchip} />}>Stay</Button>
           <br/>
           <br/>
           <br/>
