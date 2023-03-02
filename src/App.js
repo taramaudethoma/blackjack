@@ -14,14 +14,13 @@ function App() {
       <div className="background" style={{ backgroundImage: `url(${background})` }}>
 
         <header className="App-header">
-          <h1>Blackjack.... or Bust!</h1>
-          <h2>Feeling Lucky?</h2>
+          <h1>Blackjack .... or Bust!</h1>
+          <h2>Do you feel lucky?</h2>
 
         </header>
 
         < NewGame />
-
-       
+  
       </div>
 
     </div>

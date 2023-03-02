@@ -4,8 +4,6 @@ import './Card.css';
 import ComputerHand from './ComputerHand';
 import Scoreboard from './Scoreboard';
 import { Avatar } from '@mui/material';
-import { Grid } from '@mui/material';
-import { Box } from '@mui/material';
 import redchip from '../red-chip.jpeg';
 import fourchips from '../four-chips.jpeg';
 import chipstack from '../chip-stack.jpeg'
@@ -102,7 +100,7 @@ function NewGame() {
           if (updatedComputerHand <= playerHand && playerHand <= 21) {
             setTimeout(() => {
               _computerTurn(newComputerCards)
-             }, 1500); // Call the function again after 1 second
+            }, 1500); // Call the function again after 1 second
           } else {
             setTimeout(() => {
               _endGame(playerHand, updatedComputerHand);
@@ -122,9 +120,9 @@ function NewGame() {
     setGameEnded(true)
 
     if (playerHand > 21 || (computerHand > playerHand && computerHand <= 21)) {
-      setDisplayWinner("Computer Wins!");
+      setDisplayWinner("Dealer Wins  😞");
     } else if (computerHand > 21 || (playerHand > computerHand && playerHand <= 21)) {
-      setDisplayWinner("You Win!");
+      setDisplayWinner("You Win!  🥳");
     } else {
       setDisplayWinner("It's a Tie");
     }
@@ -157,58 +155,53 @@ function NewGame() {
 
   return (
 
-    <Grid container spacing={2} minHeight={160}>
+    <div className='wrapper'>
 
-      <Grid xs display="flex" justifyContent="center" alignItems="center">
-
+      <div>
+        <br />
+        <br />
         <h2>Dealer's Hand</h2>
-        <br/>
-        <br/>
-        <br/>
-        <ComputerHand cards={computerCards} showComputerCards={showComputerCards} />
+      </div>
 
-      </Grid>
+      <div>
+        <br />
+        <br />
+        <br />
+        <Button variant="contained" color="secondary" startIcon={<Avatar src={fourchips} />} onClick={_newDeck}> Deal Cards</Button>
+        <br />
+        <br />
+        <br />
+        <Button onClick={_hitPlayer} variant="contained" color="success" startIcon={<Avatar alt="" src={chipstack} />}>Hit</Button>
+        <Button onClick={() => { _computerTurn() }} variant="contained" color="error" startIcon={<Avatar src={redchip} />}>Stay</Button>
+        <br />
+        <br />
+        <br />
+      </div>
 
-      <Grid xs display="flex" justifyContent="center" alignItems="center">
-      <Box className="box">
-
-        <div>
-          <Button variant="contained" color="secondary" startIcon={<Avatar src={fourchips} />} onClick={_newDeck}> Deal Cards</Button>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          
-          <Button onClick={_hitPlayer} variant="contained" color="success" startIcon={<Avatar alt="" src={chipstack} />}>Hit</Button>
-          <Button onClick={() => {_computerTurn()}} variant="contained" color="error" startIcon={<Avatar src={redchip} />}>Stay</Button>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <div>
-            <Scoreboard winnerText={displayWinner} />
-          </div>
-        </div>
-        </Box>
-
-      </Grid>
-
-      <Grid xs display="flex" justifyContent="center" alignItems="center">
-
+      <div>
+        <br />
+        <br />
         <h2>Player's Hand</h2>
-        <br/>
-        <br/>
-        <br/>
+      </div>
 
-        <div>
-          {playerCards.map((card, index) => {
-            return <img key={index} className="player-card" src={card.image} alt="" />
-          })}
-        </div>
+      <div>
+        <ComputerHand cards={computerCards} showComputerCards={showComputerCards} />
+      </div>
 
-      </Grid>
+      <div>
+        <br />
+        <br />
+        <br />
+        <Scoreboard winnerText={displayWinner} />
+      </div>
 
-    </Grid>
+      <div>
+        {playerCards.map((card, index) => {
+          return <img key={index} className="player-card" src={card.image} alt="" />
+        })}
+      </div>
+
+    </div>
 
 
 
